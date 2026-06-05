@@ -29,6 +29,14 @@ public class UserController {
         return service.save(user);
     }
 
+    @PutMapping("/{id}")
+    public User update(@PathVariable Long id,
+                         @RequestBody User user) {
+
+        user.setId(id);
+        return service.save(user);
+    }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);

@@ -1,8 +1,8 @@
 package br.com.fiap.terraorbit.service;
 
-import br.com.fiap.terraorbit.entity.ClimateAlert;
-import br.com.fiap.terraorbit.entity.Farm;
-import br.com.fiap.terraorbit.repository.FarmRepo;
+
+import br.com.fiap.terraorbit.entity.Incident;
+import br.com.fiap.terraorbit.repository.IncidentRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,21 +10,21 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FarmService {
+public class IncidentService {
 
-    private final FarmRepo repository;
+    private final IncidentRepo repository;
 
-    public List<Farm> findAll() {
+    public List<Incident> findAll() {
         return repository.findAll();
     }
 
-    public Farm findById(Long id) {
+    public Incident findById(Long id) {
         return repository.findById(id)
                 .orElseThrow();
     }
 
-    public Farm save(Farm farm) {
-        return repository.save(farm);
+    public Incident save(Incident incident) {
+        return repository.save(incident);
     }
 
     public void delete(Long id) {

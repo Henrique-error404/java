@@ -3,6 +3,7 @@ package br.com.fiap.terraorbit.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,7 +26,7 @@ public class Farm {
     private String location;
 
     @Column(name = "FARM_SIZE_HECTARES", precision = 10, scale = 2)
-    private Double farmSizeHectares;
+    private BigDecimal farmSizeHectares;
 
     @ManyToOne
     @JoinColumn(name = "ID_USER")

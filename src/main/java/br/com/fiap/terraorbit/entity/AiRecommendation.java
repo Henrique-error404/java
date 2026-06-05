@@ -23,7 +23,8 @@ public class AiRecommendation {
     private String recommendation;
 
     @Column(name = "RISK_LEVEL", length = 30)
-    private String riskLevel;
+    @Enumerated(EnumType.STRING)
+    private RISKLEVEL riskLevel;
 
     @Column(name = "GENERATED_AT")
     private LocalDateTime generatedAt;
