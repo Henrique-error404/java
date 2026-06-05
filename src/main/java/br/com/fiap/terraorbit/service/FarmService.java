@@ -1,6 +1,5 @@
 package br.com.fiap.terraorbit.service;
 
-import br.com.fiap.terraorbit.entity.ClimateAlert;
 import br.com.fiap.terraorbit.entity.Farm;
 import br.com.fiap.terraorbit.repository.FarmRepo;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,6 @@
 package br.com.fiap.terraorbit.controller;
 
 import br.com.fiap.terraorbit.entity.Farm;
-import br.com.fiap.terraorbit.entity.User;
 import br.com.fiap.terraorbit.service.FarmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +18,7 @@ public class FarmController {
     public List<Farm> findAll() {
         return service.findAll();
     }
+
     @GetMapping("/{id}")
     public Farm findById(@PathVariable Long id) {
         return service.findById(id);

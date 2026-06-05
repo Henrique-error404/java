@@ -1,7 +1,9 @@
 package br.com.fiap.terraorbit.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,7 +21,7 @@ public class Farm {
     @Column(name = "ID_FARM")
     private Long id;
 
-    @Column(name = "FARM_NAME", nullable = false,  length = 120)
+    @Column(name = "FARM_NAME", nullable = false, length = 120)
     private String farmName;
 
     @Column(name = "LOCATION", length = 200)

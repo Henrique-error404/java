@@ -1,4 +1,5 @@
 package br.com.fiap.terraorbit.service;
+
 import br.com.fiap.terraorbit.entity.AiRecommendation;
 import br.com.fiap.terraorbit.repository.AiRecommendationRepo;
 import lombok.RequiredArgsConstructor;
