@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: terraorbit-gaia-ai
+
+server:
+  port: 8081
+
+openrouter:
+  api-key: ${API_KEY_OPENROUTER} //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
+  model: nvidia/nemotron-3-ultra-550b-a55b:free
