@@ -1,11 +1,14 @@
 package br.com.fiap.terraorbit.controller;
 
+import br.com.fiap.terraorbit.assembler.AIRecommendationAssembler;
 import br.com.fiap.terraorbit.entity.AiRecommendation;
 import br.com.fiap.terraorbit.service.AiRecommendationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/recommendations")
@@ -13,10 +16,16 @@ import java.util.List;
 public class AiRecommendationController {
 
     private final AiRecommendationService service;
+    private final AIRecommendationAssembler assembler;
 
     @GetMapping
-    public List<AiRecommendation> findAll() {
-        return service.findAll();
+    public PagedModel<EntityModel<AiRecommendation>> findAll(
+            Pageable pageable,
+            PagedResourcesAssembler<AiRecommendation> pagedAssembler) {
+
+        var page = service.findAll(pageable);
+
+        return pagedAssembler.toModel(page, assembler);
     }
 
     @GetMapping("/{id}")
