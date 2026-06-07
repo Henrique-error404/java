@@ -6,7 +6,7 @@ import org.springframework.hateoas.server.core.Relation;
 
 import java.time.LocalDateTime;
 
-@Relation(collectionRelation = "recommendations", itemRelation = "link")
+@Relation(collectionRelation = "recommendations", itemRelation = "recommendation")
 public record AiRecommendationDTO(
         Long id,
         String recommendation,
