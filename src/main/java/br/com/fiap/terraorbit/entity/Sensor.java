@@ -2,12 +2,14 @@ package br.com.fiap.terraorbit.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Builder
 @Entity
 @Table(name = "TO_SENSORS")
 @Data
@@ -33,7 +35,8 @@ public class Sensor {
     private BigDecimal lastReading;
 
     @Column(name = "INSTALLED_AT")
-    private LocalDateTime installedAt;
+    @Builder.Default
+    private LocalDateTime installedAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "ID_FARM")

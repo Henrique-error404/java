@@ -36,7 +36,10 @@ public class AiController {
                 .get(0)
                 .path("message")
                 .path("content")
-                .asString();
+                .asString()
+                .replace("```json", "")
+                .replace("```", "")
+                .trim();
 
         return mapper.readValue(
                 content,

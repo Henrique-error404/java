@@ -1,9 +1,9 @@
 package br.com.fiap.terraorbit.assembler;
 
-import br.com.fiap.terraorbit.controller.ClimateAlertController;
 import br.com.fiap.terraorbit.controller.FarmController;
-import br.com.fiap.terraorbit.dto.response.ClimateAlertDTO;
-import br.com.fiap.terraorbit.entity.ClimateAlert;
+import br.com.fiap.terraorbit.controller.SensorController;
+import br.com.fiap.terraorbit.dto.response.SensorDTO;
+import br.com.fiap.terraorbit.entity.Sensor;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -14,21 +14,20 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class ClimateAlertAssembler implements RepresentationModelAssembler<ClimateAlert, EntityModel<ClimateAlertDTO>> {
+public class SensorAssembler implements RepresentationModelAssembler<Sensor, EntityModel<SensorDTO>> {
     @Override
     @NullMarked
-    public EntityModel<ClimateAlertDTO> toModel(ClimateAlert entity) {
-        return EntityModel.of(ClimateAlertDTO.fromEntity(entity),
-                linkTo(methodOn(ClimateAlertController.class)
+    public EntityModel<SensorDTO> toModel(Sensor entity) {
+        return EntityModel.of(SensorDTO.fromEntity(entity),
+                linkTo(methodOn(SensorController.class)
                         .findById(entity.getId())
                 ).withSelfRel(),
-                linkTo(methodOn(ClimateAlertController.class)
+                linkTo(methodOn(SensorController.class)
                         .findAll(Pageable.unpaged(), null, null)
-                ).withRel("climateAlerts"),
+                ).withRel("all-sensors"),
                 linkTo(methodOn(FarmController.class)
                         .findById(entity.getFarm().getId())
                 ).withRel("farm")
         );
-
     }
 }

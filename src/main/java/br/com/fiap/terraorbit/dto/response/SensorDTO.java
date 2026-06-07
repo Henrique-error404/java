@@ -1,5 +1,6 @@
 package br.com.fiap.terraorbit.dto.response;
 
+import br.com.fiap.terraorbit.entity.Sensor;
 import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
@@ -15,4 +16,17 @@ public record SensorDTO(
         LocalDateTime installedAt,
         Long farmId
 ) {
+
+
+    public static SensorDTO fromEntity(Sensor entity) {
+        return new SensorDTO(
+                entity.getId(),
+                entity.getSensorName(),
+                entity.getSensorType(),
+                entity.getSensorStatus(),
+                entity.getLastReading(),
+                entity.getInstalledAt(),
+                entity.getFarm().getId()
+        );
+    }
 }

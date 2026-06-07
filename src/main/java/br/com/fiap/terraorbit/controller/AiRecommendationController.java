@@ -22,9 +22,10 @@ public class AiRecommendationController {
     @GetMapping
     public PagedModel<EntityModel<AiRecommendationDTO>> findAll(
             Pageable pageable,
-            PagedResourcesAssembler<AiRecommendation> pagedAssembler) {
+            PagedResourcesAssembler<AiRecommendation> pagedAssembler,
+            @RequestParam(required = false) Long farmId) {
 
-        var page = service.findAll(pageable);
+        var page = service.findAll(farmId, pageable);
 
         return pagedAssembler.toModel(page, assembler);
     }
@@ -41,14 +42,6 @@ public class AiRecommendationController {
         return assembler.toModel(
                 service.analyze(farmId)
         );
-    }
-
-    @PutMapping("/{id}")
-    public AiRecommendation update(@PathVariable Long id,
-                                   @RequestBody AiRecommendation recommendation) {
-
-        recommendation.setId(id);
-        return service.save(recommendation);
     }
 
     @DeleteMapping("/{id}")

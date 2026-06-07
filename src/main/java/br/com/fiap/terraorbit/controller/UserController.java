@@ -1,11 +1,16 @@
 package br.com.fiap.terraorbit.controller;
 
+import br.com.fiap.terraorbit.assembler.UserAssembler;
+import br.com.fiap.terraorbit.dto.request.UserNewRequest;
+import br.com.fiap.terraorbit.dto.response.UserDTO;
 import br.com.fiap.terraorbit.entity.User;
 import br.com.fiap.terraorbit.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -13,29 +18,30 @@ import java.util.List;
 public class UserController {
 
     private final UserService service;
+    private final UserAssembler assembler;
 
     @GetMapping
-    public List<User> findAll() {
-        return service.findAll();
+    public PagedModel<EntityModel<UserDTO>> findAll(
+            Pageable pageable,
+            PagedResourcesAssembler<User> pagedAssembler) {
+
+        var page = service.findAll(pageable);
+
+        return pagedAssembler.toModel(page, assembler);
     }
 
     @GetMapping("/{id}")
-    public User findById(@PathVariable Long id) {
-        return service.findById(id);
-    }
-
-    @PostMapping
-    public User create(@RequestBody User user) {
-        return service.save(user);
+    public EntityModel<UserDTO> findById(@PathVariable Long id) {
+        return assembler.toModel(service.findById(id));
     }
 
     @PutMapping("/{id}")
-    public User update(@PathVariable Long id,
-                       @RequestBody User user) {
+    public EntityModel<UserDTO> update(@PathVariable Long id,
+                                       @RequestBody UserNewRequest request) {
 
-        user.setId(id);
-        return service.save(user);
+        return assembler.toModel(service.update(id, request));
     }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

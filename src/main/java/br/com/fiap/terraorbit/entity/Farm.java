@@ -2,12 +2,14 @@ package br.com.fiap.terraorbit.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Builder
 @Entity
 @Table(name = "TO_FARMS")
 @Data
@@ -35,5 +37,6 @@ public class Farm {
     private User owner;
 
     @Column(name = "CREATED_AT")
-    private LocalDateTime createdAt;
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

@@ -2,6 +2,7 @@ package br.com.fiap.terraorbit.service;
 
 import br.com.fiap.terraorbit.client.GaiaAiClient;
 import br.com.fiap.terraorbit.entity.AiRecommendation;
+import br.com.fiap.terraorbit.entity.ClimateAlert;
 import br.com.fiap.terraorbit.repository.AiRecommendationRepo;
 import br.com.fiap.terraorbit.repository.FarmRepo;
 import br.com.fiap.terraorbit.repository.SensorRepo;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 
 @Service
@@ -19,9 +22,14 @@ public class AiRecommendationService {
     private final SensorRepo sensorRepo;
     private final FarmRepo farmRepo;
     private final GaiaAiClient gaiaAiClient;
+    private final ClimateAlertService alertService;
 
-    public Page<AiRecommendation> findAll(Pageable pageable) {
-        return repo.findAll(pageable);
+    public Page<AiRecommendation> findAll(Long farmId, Pageable pageable) {
+        if (farmId == null) {
+            return repo.findAll(pageable);
+        }
+
+        return repo.findByFarm_Id(farmId, pageable);
     }
 
     public AiRecommendation findById(Long id) {
@@ -57,8 +65,17 @@ public class AiRecommendationService {
                 .average()
                 .orElse(0.0);
 
-        System.out.println("Temperature: " + avgTemp);
-        System.out.println("Humidity: " + avgHmd);
+        System.out.println("AVG TEMP: " + avgTemp);
+        System.out.println("AVG HMD: " + avgHmd);
+
+        if (avgTemp >= 30) {
+            alertService.save(
+                    new ClimateAlert("DROUGHT",
+                            "HIGH",
+                            "Potential drought detected",
+                            LocalDateTime.now(),
+                            farm));
+        }
 
         return save(new AiRecommendation(gaiaAiClient.analyze(avgTemp, avgHmd), farm));
     }

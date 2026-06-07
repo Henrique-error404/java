@@ -1,11 +1,16 @@
 package br.com.fiap.terraorbit.controller;
 
+import br.com.fiap.terraorbit.assembler.IncidentAssembler;
+import br.com.fiap.terraorbit.dto.request.IncidentNewRequest;
+import br.com.fiap.terraorbit.dto.response.IncidentDTO;
 import br.com.fiap.terraorbit.entity.Incident;
 import br.com.fiap.terraorbit.service.IncidentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/incidents")
@@ -13,28 +18,35 @@ import java.util.List;
 public class IncidentController {
 
     private final IncidentService service;
+    private final IncidentAssembler assembler;
 
     @GetMapping
-    public List<Incident> findAll() {
-        return service.findAll();
+    public PagedModel<EntityModel<IncidentDTO>> findAll(
+            Pageable pageable,
+            PagedResourcesAssembler<Incident> pagedAssembler,
+            @RequestParam(required = false) Long farmId) {
+
+        var page = service.findAll(farmId, pageable);
+
+        return pagedAssembler.toModel(page, assembler);
     }
 
     @GetMapping("/{id}")
-    public Incident findById(@PathVariable Long id) {
-        return service.findById(id);
+    public EntityModel<IncidentDTO> findById(@PathVariable Long id) {
+        return assembler.toModel(
+                service.findById(id)
+        );
     }
 
     @PostMapping
-    public Incident create(@RequestBody Incident incident) {
-        return service.save(incident);
+    public EntityModel<IncidentDTO> create(@RequestBody IncidentNewRequest request) {
+        return assembler.toModel(service.create(request));
     }
 
     @PutMapping("/{id}")
-    public Incident update(@PathVariable Long id,
-                           @RequestBody Incident incident) {
-
-        incident.setId(id);
-        return service.save(incident);
+    public EntityModel<IncidentDTO> update(@PathVariable Long id,
+                                           @RequestBody IncidentNewRequest request) {
+        return assembler.toModel(service.update(id, request));
     }
 
     @DeleteMapping("/{id}")

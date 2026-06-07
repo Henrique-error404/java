@@ -34,5 +34,6 @@ public class User {
     private String userRole;
 
     @Column(name = "CREATED_AT")
-    private LocalDateTime createdAt;
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

@@ -34,4 +34,12 @@ public class ClimateAlert {
     @ManyToOne
     @JoinColumn(name = "ID_FARM")
     private Farm farm;
+
+    public ClimateAlert(String drought, String high, String potentialDroughtDetected, LocalDateTime now, Farm farm) {
+        this.alertType = drought;
+        this.severity = high;
+        this.message = potentialDroughtDetected;
+        this.alertDate = now;
+        this.farm = farm;
+    }
 }

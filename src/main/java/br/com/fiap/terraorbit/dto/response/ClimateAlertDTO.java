@@ -15,7 +15,7 @@ public record ClimateAlertDTO(
         Long farmId
 ) {
     public static ClimateAlertDTO fromEntity(ClimateAlert entity) {
-        return  new ClimateAlertDTO(
+        return new ClimateAlertDTO(
                 entity.getId(),
                 entity.getAlertType(),
                 entity.getSeverity(),
