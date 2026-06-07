@@ -1,4 +1,4 @@
-package br.com.fiap.terraorbit.dto;
+package br.com.fiap.terraorbit.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

@@ -1,6 +1,7 @@
 package br.com.fiap.terraorbit.controller;
 
 import br.com.fiap.terraorbit.assembler.AIRecommendationAssembler;
+import br.com.fiap.terraorbit.dto.response.AiRecommendationDTO;
 import br.com.fiap.terraorbit.entity.AiRecommendation;
 import br.com.fiap.terraorbit.service.AiRecommendationService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class AiRecommendationController {
     private final AIRecommendationAssembler assembler;
 
     @GetMapping
-    public PagedModel<EntityModel<AiRecommendation>> findAll(
+    public PagedModel<EntityModel<AiRecommendationDTO>> findAll(
             Pageable pageable,
             PagedResourcesAssembler<AiRecommendation> pagedAssembler) {
 
@@ -29,13 +30,17 @@ public class AiRecommendationController {
     }
 
     @GetMapping("/{id}")
-    public AiRecommendation findById(@PathVariable Long id) {
-        return service.findById(id);
+    public EntityModel<AiRecommendationDTO> findById(@PathVariable Long id) {
+        return assembler.toModel(
+                service.findById(id)
+        );
     }
 
-    @PostMapping
-    public AiRecommendation create(@RequestBody AiRecommendation recommendation) {
-        return service.save(recommendation);
+    @PostMapping("/generate/{farmId}")
+    public EntityModel<AiRecommendationDTO> generateRecommendation(@PathVariable Long farmId) {
+        return assembler.toModel(
+                service.analyze(farmId)
+        );
     }
 
     @PutMapping("/{id}")

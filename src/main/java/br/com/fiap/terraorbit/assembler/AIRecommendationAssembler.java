@@ -2,6 +2,7 @@ package br.com.fiap.terraorbit.assembler;
 
 import br.com.fiap.terraorbit.controller.AiRecommendationController;
 import br.com.fiap.terraorbit.controller.FarmController;
+import br.com.fiap.terraorbit.dto.response.AiRecommendationDTO;
 import br.com.fiap.terraorbit.entity.AiRecommendation;
 import org.jspecify.annotations.NullMarked;
 import org.springframework.data.domain.Pageable;
@@ -14,15 +15,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class AIRecommendationAssembler implements RepresentationModelAssembler<AiRecommendation, EntityModel<AiRecommendation>> {
+public class AIRecommendationAssembler implements RepresentationModelAssembler<AiRecommendation, EntityModel<AiRecommendationDTO>> {
 
     @Override
     @NullMarked
-    public EntityModel<AiRecommendation> toModel(AiRecommendation r) {
+    public EntityModel<AiRecommendationDTO> toModel(AiRecommendation entity) {
         return EntityModel.of(
-                r,
+                AiRecommendationDTO.fromEntity(entity),
                 linkTo(methodOn(AiRecommendationController.class)
-                        .findById(r.getId())
+                        .findById(entity.getId())
                 ).withSelfRel(),
 
                 linkTo(methodOn(AiRecommendationController.class)
@@ -30,9 +31,8 @@ public class AIRecommendationAssembler implements RepresentationModelAssembler<A
                 ).withRel("all-recommendations"),
 
                 linkTo(methodOn(FarmController.class)
-                        .findById(r.getFarm().getId())
+                        .findById(entity.getFarm().getId())
                 ).withRel("farm")
-
         );
     }
 }

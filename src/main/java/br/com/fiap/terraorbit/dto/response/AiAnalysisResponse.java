@@ -1,4 +1,4 @@
-package br.com.fiap.terraorbitgaiaai.dto;
+package br.com.fiap.terraorbit.dto.response;
 
 public record AiAnalysisResponse(
         String riskLevel,

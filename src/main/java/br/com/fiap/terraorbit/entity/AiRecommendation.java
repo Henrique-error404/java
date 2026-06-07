@@ -1,7 +1,11 @@
 package br.com.fiap.terraorbit.entity;
 
+import br.com.fiap.terraorbit.dto.response.AiAnalysisResponse;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -26,9 +30,17 @@ public class AiRecommendation {
     private RISKLEVEL riskLevel;
 
     @Column(name = "GENERATED_AT")
-    private LocalDateTime generatedAt;
+    @Builder.Default
+    private LocalDateTime generatedAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "ID_FARM")
     private Farm farm;
+
+    public AiRecommendation(AiAnalysisResponse analysisResponse, Farm farm) {
+        this.riskLevel = RISKLEVEL.valueOf(analysisResponse.riskLevel().toUpperCase());
+        this.recommendation = analysisResponse.recommendation();
+        this.farm = farm;
+        this.generatedAt = LocalDateTime.now();
+    }
 }

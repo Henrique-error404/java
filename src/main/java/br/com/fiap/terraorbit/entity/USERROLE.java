@@ -1,6 +1,6 @@
 package br.com.fiap.terraorbit.entity;
 
-public enum USER_ROLE {
+public enum USERROLE {
     USER,
     ADMIN
 }

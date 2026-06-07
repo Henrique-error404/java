@@ -31,12 +31,12 @@ public class OpenRouterService {
                 Humidity: %s%%
                 
                 Keep answers simple with minimal words.
+                Risk level should be one of the following exact values: LOW, MEDIUM, HIGH.
                 Return ONLY valid JSON.
                 
                 {
                   "riskLevel":"",
-                  "recommendation":"",
-                  "preventiveActions":""
+                  "recommendation":""
                 }
                 """
                 .formatted(temperature, humidity);

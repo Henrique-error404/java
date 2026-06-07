@@ -1,8 +1,8 @@
 package br.com.fiap.terraorbit.controller;
 
-import br.com.fiap.terraorbit.dto.JwtResponse;
-import br.com.fiap.terraorbit.dto.LoginDTO;
-import br.com.fiap.terraorbit.dto.RegisterDTO;
+import br.com.fiap.terraorbit.dto.response.JwtResponse;
+import br.com.fiap.terraorbit.dto.auth.LoginDTO;
+import br.com.fiap.terraorbit.dto.auth.RegisterDTO;
 import br.com.fiap.terraorbit.entity.User;
 import br.com.fiap.terraorbit.exception.EmailAlreadyExists;
 import br.com.fiap.terraorbit.repository.UserRepo;
