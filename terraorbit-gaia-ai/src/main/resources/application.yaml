@@ -7,4 +7,4 @@ server:
 
 openrouter:
   api-key: ${API_KEY_OPENROUTER}
-  model: nvidia/nemotron-3-ultra-550b-a55b:free
+  model: openrouter/owl-alpha
