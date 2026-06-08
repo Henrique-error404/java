@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         var user = repo.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-        var role = user.getUserRole().equals("ADMIN") ? "ADMIN" : "USER";
+        var role = user.getUserRole() == null || !user.getUserRole().equals("ADMIN") ? "USER" : "ADMIN";
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmail())

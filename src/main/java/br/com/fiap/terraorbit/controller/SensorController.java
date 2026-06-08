@@ -6,6 +6,7 @@ import br.com.fiap.terraorbit.dto.response.SensorDTO;
 import br.com.fiap.terraorbit.entity.Sensor;
 import br.com.fiap.terraorbit.service.SensorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
@@ -21,6 +22,7 @@ public class SensorController {
     private final SensorAssembler assembler;
 
     @GetMapping
+    @Cacheable("sensors")
     public PagedModel<EntityModel<SensorDTO>> findAll(
             Pageable pageable,
             PagedResourcesAssembler<Sensor> pagedAssembler,

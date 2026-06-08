@@ -6,6 +6,7 @@ import br.com.fiap.terraorbit.dto.response.IncidentDTO;
 import br.com.fiap.terraorbit.entity.Incident;
 import br.com.fiap.terraorbit.service.IncidentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
@@ -21,6 +22,7 @@ public class IncidentController {
     private final IncidentAssembler assembler;
 
     @GetMapping
+    @Cacheable("incidents")
     public PagedModel<EntityModel<IncidentDTO>> findAll(
             Pageable pageable,
             PagedResourcesAssembler<Incident> pagedAssembler,
