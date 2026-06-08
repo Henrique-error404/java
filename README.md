@@ -42,7 +42,7 @@ O **TerraOrbit** é uma plataforma de monitoramento agrícola que permite:
 ---
 
 ## Video Demonstração
-Você pode ver uma demonstração básica do funcionamento da API neste link[https://youtu.be/pnGlyrtOQuY]
+Você pode ver uma demonstração básica do funcionamento da API neste [link](https://youtu.be/pnGlyrtOQuY)
 
 ## Arquitetura
 
