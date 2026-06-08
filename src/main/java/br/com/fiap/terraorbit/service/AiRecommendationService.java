@@ -63,9 +63,6 @@ public class AiRecommendationService {
                 .average()
                 .orElse(0.0);
 
-        System.out.println("AVG TEMP: " + avgTemp);
-        System.out.println("AVG HMD: " + avgHmd);
-
         if (avgTemp >= 30) {
             alertService.save(
                     new ClimateAlert("DROUGHT",
