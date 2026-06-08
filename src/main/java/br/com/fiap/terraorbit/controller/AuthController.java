@@ -9,10 +9,13 @@ import br.com.fiap.terraorbit.repository.UserRepo;
 import br.com.fiap.terraorbit.security.JwtService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/auth")
@@ -49,20 +52,28 @@ public class AuthController {
 
         userRepository.save(user);
 
-        return new JwtResponse(jwtService.generateToken(user.getEmail()));
+        return new JwtResponse(jwtService.generateToken(user.getEmail()), user.getId());
     }
 
     @PostMapping("/login")
     public JwtResponse login(@RequestBody LoginDTO dto) {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        dto.email(),
-                        dto.password()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            dto.email(),
+                            dto.password()
+                    )
+            );
+        } catch (AuthenticationException e) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), e.getMessage());
+        }
 
-        return new JwtResponse(jwtService.generateToken(dto.email()));
+        var user = userRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
+
+
+        return new JwtResponse(jwtService.generateToken(dto.email()), user.getId());
     }
 
 }

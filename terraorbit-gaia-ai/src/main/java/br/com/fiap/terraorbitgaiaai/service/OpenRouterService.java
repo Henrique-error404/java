@@ -31,6 +31,7 @@ public class OpenRouterService {
                 Humidity: %s%%
                 
                 Keep answers simple with minimal words.
+                Avoid special characters.
                 Risk level should be one of the following exact values: LOW, MEDIUM, HIGH.
                 Return ONLY valid JSON.
                 

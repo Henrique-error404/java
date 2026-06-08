@@ -7,6 +7,7 @@ API REST desenvolvida em **Java 21 + Spring Boot 4.0.6** para monitoramento inte
 ## 📋 Índice
 
 - [Visão Geral](#visão-geral)
+- [Video Demo](#video-demonstração)
 - [Arquitetura](#arquitetura)
 - [Tecnologias](#tecnologias)
 - [Estrutura do Projeto](#estrutura-do-projeto)
@@ -39,6 +40,9 @@ O **TerraOrbit** é uma plataforma de monitoramento agrícola que permite:
 - Gerar recomendações agrícolas inteligentes via LLM (Gaia AI), baseadas nas leituras dos sensores
 
 ---
+
+## Video Demonstração
+Você pode ver uma demonstração básica do funcionamento da API neste link[https://youtu.be/pnGlyrtOQuY]
 
 ## Arquitetura
 
