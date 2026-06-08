@@ -28,14 +28,21 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        repository.findById(id)
+                .ifPresentOrElse(repository::delete,
+                        () -> {
+                            throw new ResponseStatusException(HttpStatusCode.valueOf(404)
+                            );
+                        }
+                );
     }
 
     public User update(Long id, UserNewRequest request) {
-        var user = repository.findById(id).orElseThrow();
+        var user = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
 
         user.setName(request.name() != null ? request.name() : user.getName());
-        user.setPasswordHash(request.password() != null ? encoder.encode(request.password()) : encoder.encode(user.getPasswordHash()));
+        user.setPasswordHash(request.password() != null ? encoder.encode(request.password()) : user.getPasswordHash());
 
         return user;
     }

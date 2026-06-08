@@ -8,13 +8,11 @@ import br.com.fiap.terraorbit.exception.EmailAlreadyExists;
 import br.com.fiap.terraorbit.repository.UserRepo;
 import br.com.fiap.terraorbit.security.JwtService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -36,7 +34,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody @Valid RegisterDTO dto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public JwtResponse register(@RequestBody @Valid RegisterDTO dto) {
 
         if (userRepository.findByEmail(dto.email()).isPresent()) {
             throw new EmailAlreadyExists("Email já cadastrado");
@@ -50,7 +49,7 @@ public class AuthController {
 
         userRepository.save(user);
 
-        return jwtService.generateToken(user.getEmail());
+        return new JwtResponse(jwtService.generateToken(user.getEmail()));
     }
 
     @PostMapping("/login")
