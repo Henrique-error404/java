@@ -9,7 +9,9 @@ import br.com.fiap.terraorbit.repository.SensorRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 
@@ -34,7 +36,7 @@ public class AiRecommendationService {
 
     public AiRecommendation findById(Long id) {
         return repo.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
     }
 
     public AiRecommendation save(AiRecommendation recommendation) {
@@ -49,18 +51,14 @@ public class AiRecommendationService {
 
         var farm = farmRepo.findById(farmId).orElseThrow();
 
-        var avgTemp = sensorRepo.findAll().stream()
-                .filter(s -> s.getFarm().getId().equals(farmId) &&
-                        s.getSensorStatus().equals("ACTIVE") &&
-                        s.getSensorType().equals("TEMPERATURE"))
+        var avgTemp = sensorRepo.findByFarm_IdAndSensorStatusAndSensorType(farmId, "ACTIVE", "TEMPERATURE")
+                .stream()
                 .mapToDouble(s -> s.getLastReading().doubleValue())
                 .average()
                 .orElse(0.0);
 
-        var avgHmd = sensorRepo.findAll().stream()
-                .filter(s -> s.getFarm().getId().equals(farmId) &&
-                        s.getSensorStatus().equals("ACTIVE") &&
-                        s.getSensorType().equals("HUMIDITY"))
+        var avgHmd = sensorRepo.findByFarm_IdAndSensorStatusAndSensorType(farmId, "ACTIVE", "HUMIDITY")
+                .stream()
                 .mapToDouble(s -> s.getLastReading().doubleValue())
                 .average()
                 .orElse(0.0);

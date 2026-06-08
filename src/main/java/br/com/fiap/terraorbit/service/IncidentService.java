@@ -8,7 +8,9 @@ import br.com.fiap.terraorbit.repository.IncidentRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class IncidentService {
 
     public Incident findById(Long id) {
         return repository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
     }
 
     public Incident save(Incident incident) {

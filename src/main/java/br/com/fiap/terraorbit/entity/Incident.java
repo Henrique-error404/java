@@ -26,7 +26,8 @@ public class Incident {
     private String incidentDescription;
 
     @Column(name = "INCIDENT_DATE")
-    private LocalDateTime incidentDate;
+    @Builder.Default
+    private LocalDateTime incidentDate = LocalDateTime.now();
 
     @Column(name = "INCIDENT_STATUS")
     private String incidentStatus;
